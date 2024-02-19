@@ -76,18 +76,23 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
     try{
+        console.log("Login request received", req.body);
         const {email, password} = req.body;
+        console.log("email:", email);
+        console.log("password", password);
         if(!email || !password)
         {
-            return res.status(422).json({error: "Please fill all the fields"});
+            return res.status(422).json({error: "Please fill all the fieldss"});
         }
         const user = await User.findOne({email});
-        const isPasswordCorrect = await bcypt.compare(password, user.password || "");
-        
-        if(!user | !isPasswordCorrect)
+        if(!user)
         {
             return res.status(422).json({error: "Invalid Credentials"});
         }
+        const isPasswordCorrect = await bcypt.compare(password, user.password || "");
+        if(!isPasswordCorrect) return res.status(422).json({error: "Invalid Credentials"});
+        console.log("User:", user);
+        
 
         generateTokenAndSetCookie(user._id, res);
 

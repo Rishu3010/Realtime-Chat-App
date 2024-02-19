@@ -6,6 +6,7 @@ import messageRoutes from './routes/message.routes.js';
 import userRoutes from './routes/user.routes.js';
 import { connectToMongoDb } from './db/connectToMongoDb.js';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 const app = express();
 
@@ -16,6 +17,7 @@ dotenv.config();
 const PORT = process.env.PORT;
 app.use(express.json()); // This middleware will allow us to parse the incoming request body as JSON (from post req.body)
 app.use(cookieParser());
+app.use(cors());
 
 
 // app.get('/', (req, res) => {
