@@ -4,7 +4,9 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "server": "nodemon cabackend/server.js"
+    "server": "nodemon cabackend/server.js",
+    "start": "node cabackend/server.js",
+    "build": "npm install && npm install --prefix cafrontend && npm run build --prefix cafrontend"
   },
   "keywords": [],
   "author": "",

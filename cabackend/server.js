@@ -1,49 +1,39 @@
-import dotenv from 'dotenv';
-import express from 'express';
+import path from "path";
+import express from "express";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
-import authRoutes from './routes/auth.routes.js';
-import messageRoutes from './routes/message.routes.js';
-import userRoutes from './routes/user.routes.js';
-import { connectToMongoDb } from './db/connectToMongoDb.js';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
+import authRoutes from "./routes/auth.routes.js";
+import messageRoutes from "./routes/message.routes.js";
+import userRoutes from "./routes/user.routes.js";
 
-const app = express();
+import connectToMongoDB from "./db/connectToMongoDB.js";
+import { app, server } from "./socket/socket.js";
+
+const PORT = process.env.PORT || 5000;
+
+const __dirname = path.resolve();
 
 dotenv.config();
 
-
-
-const PORT = process.env.PORT;
-app.use(express.json()); // This middleware will allow us to parse the incoming request body as JSON (from post req.body)
+app.use(express.json()); // to parse the incoming requests with JSON payloads (from req.body)
 app.use(cookieParser());
-app.use(cors());
+
+app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
+app.use("/api/users", userRoutes);
 
 
-// app.get('/', (req, res) => {
-//     res.send(`Hello World! The server is running on port ${PORT}`);
-// });
+// Set up cors to allow us to accept requests from our client with a different origin
 
 
-// Set up auth routes using middleware
+app.use(express.static(path.join(__dirname, "/cafrontend/dist")));
 
-app.use('/api/auth', authRoutes);
-app.use('/api/messages', messageRoutes);
-app.use('/api/users', userRoutes);
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "cafrontend", "dist", "index.html"));
+});
 
-
-
-
-
-
-
-
-
-
-
-
-
-app.listen(PORT, () => {
-    connectToMongoDb();
-    console.log(`Server is running on port ${PORT}`);
+server.listen(PORT, () => {
+	connectToMongoDB();
+	console.log(`Server Running on port ${PORT}`);
 });

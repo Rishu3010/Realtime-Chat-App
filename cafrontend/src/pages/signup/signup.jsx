@@ -10,7 +10,6 @@ const SignUp = () => {
 		password: "",
 		confirmPassword: "",
 		gender: "",
-		role: ""
 	});
 
 	const { loading, signup } = useSignup();
@@ -47,27 +46,14 @@ const SignUp = () => {
 
 					<div>
 						<label className='label p-2 '>
-							<span className='text-base label-text'>Email</span>
+							<span className='text-base label-text'>Username</span>
 						</label>
 						<input
 							type='text'
 							placeholder='johndoe'
 							className='w-full input input-bordered h-10'
-							value={inputs.email}
-							onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
-						/>
-					</div>
-
-					<div>
-						<label className='label p-2 '>
-							<span className='text-base label-text'>Role</span>
-						</label>
-						<input
-							type='text'
-							placeholder='johndoe'
-							className='w-full input input-bordered h-10'
-							value={inputs.role}
-							onChange={(e) => setInputs({ ...inputs, role: e.target.value })}
+							value={inputs.username}
+							onChange={(e) => setInputs({ ...inputs, username: e.target.value })}
 						/>
 					</div>
 
